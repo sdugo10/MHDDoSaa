@@ -42,5 +42,5 @@ jobs:
           CONCURRENCY="${{ github.event.inputs.concurrency }}" \
           MAX_RPS_PER_TAB="${{ github.event.inputs.max_rps }}" \
           REQ_PER_BATCH=3 \
-          timeout 60 python3 ply.py
+          timeout 360m python3 ply.py
         continue-on-error: true
