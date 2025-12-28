@@ -1,4 +1,4 @@
-name: Run Python
+name: Run Go
 
 on:
   workflow_dispatch:
@@ -23,18 +23,23 @@ jobs:
         shard: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          python-version: "3.12"
+          go-version: "1.22"
 
-      - run: pip install aioquic uvloop
+      - name: Download dependencies
+        run: go mod download
 
-      - run: |
+      - name: Run Go program
+        run: |
           TIME=${{ inputs.time }}
-          timeout $TIME python3 2.py \
-            --url "${{ inputs.url }}" \
-            --rps "${{ inputs.rps }}" \
-            --duration "$((TIME+60))" \
-            --connections 200 \
-            --workers 600
+          timeout $TIME go run nah.go \
+            -url "${{ inputs.url }}" \
+            -rps "${{ inputs.rps }}" \
+            -duration "$((TIME+60))" \
+            -connections 200 \
+            -workers 600
